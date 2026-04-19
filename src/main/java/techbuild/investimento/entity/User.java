@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import techbuild.investimento.DTO.CreateUserDTO;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -41,6 +42,9 @@ public class User {
 
     @UpdateTimestamp
     private Instant updateTimetamp;//marca a data de uptade do usuario
+
+    @OneToMany(mappedBy = "user")//1 usuario pode ter muitas listas de contas
+    private List<Account> accountList;
 
     public User(CreateUserDTO createUserDTO) {
         this.username = createUserDTO.username();
