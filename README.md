@@ -26,7 +26,7 @@ Pré-requisitos: Java 11
 git clone https://github.com/MunizVitor/Java-Spring---INVESTIMENTOS
 
 # entrar na pasta do projeto back end
-cd backend
+cd agregador_de_investimento
 
 # executar o projeto
 ./mvnw spring-boot:run
