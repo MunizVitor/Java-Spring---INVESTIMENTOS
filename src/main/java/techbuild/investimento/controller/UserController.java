@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import techbuild.investimento.DTO.CreateUserDTO;
-import techbuild.investimento.DTO.UpdateUserDTO;
+import techbuild.investimento.DTO.*;
 import techbuild.investimento.entity.User;
 import techbuild.investimento.service.UserService;
 
@@ -30,12 +29,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") String userId){
-        var user = service.getUserById(userId);
-        if(user.isPresent()){
-            return ResponseEntity.ok(user.get());
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable String userId) {
+        return ResponseEntity.ok(service.getUserById(userId));
     }
 
     @GetMapping
@@ -59,4 +54,21 @@ public class UserController {
         service.deletar(userId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{userId}/accounts")
+    public ResponseEntity<Void> deleteById(@PathVariable("userId") String userId,
+                                           @RequestBody CreatedAccountDTO createAccountDto) {
+
+        service.createAccount(userId, createAccountDto);
+
+        return ResponseEntity.ok().build();
+    }
+
+//    @GetMapping("/{userId}/accounts")
+//    public ResponseEntity<List<AccountResponseDTO>> listAccounts(@PathVariable("userId") String userId) {
+//
+//        var accounts = service.listAccounts(userId);
+//
+//        return ResponseEntity.ok(accounts);
+//    }
 }

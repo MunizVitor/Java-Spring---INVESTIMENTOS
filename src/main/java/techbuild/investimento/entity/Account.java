@@ -1,12 +1,9 @@
 package techbuild.investimento.entity;
 
 import jakarta.persistence.*;
-import jakarta.websocket.server.ServerEndpoint;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.naming.spi.NamingManager;
-import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,20 +14,32 @@ import java.util.UUID;
 public class Account {
 
     @Id
+    @Column(name = "account_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID accountId;
 
-    @OneToOne(mappedBy = "account")
-    @PrimaryKeyJoinColumn
-    private BilingAddress bilingAddress;
-
-    @ManyToOne//Uma conta pode ter apenas um usuario
-    @JoinColumn(name = "user_id")//cria na tabela uma forenKey falando que esta chave refenrecia a outra tabela
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "deescription")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "account")
+    @PrimaryKeyJoinColumn
+    private BillingAddress billingAddress;
+
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "account")
     private List<AccountStock> accountStocks;
+
+    public Account() {
+    }
+
+    public Account(UUID accountId, User user, BillingAddress billingAddress, String description, List<AccountStock> accountStocks) {
+        this.accountId = accountId;
+        this.user = user;
+        this.billingAddress = billingAddress;
+        this.description = description;
+        this.accountStocks = accountStocks;
+    }
 }
